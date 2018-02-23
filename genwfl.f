@@ -18,12 +18,13 @@ c                   added PA range to epoch/scandir xref table;
 c                   included full-depth coadd & "n" image for W1 -> W3
 c           B80117: installed PA-range subroutine ChkPAhist
 c           B80119: installed randomized work-file name
+c           B80223: made FBT file names 500 characters long
 c
 c=======================================================================
 c
       Character*500 TileDirNam, FLnamA, FLnamD, XrefNam, cpLine,
-     +              Std3bcNam, W3Nam, TmpNam, WorkNam, TempDir
-      Character*100 FBTnam1, FBTnam2, TileNam
+     +              Std3bcNam, W3Nam, TmpNam, WorkNam, TempDir,
+     +              FBTnam1, FBTnam2, TileNam
       Character*62  XRefLine, TmpStr
       Character*11  Vsn, Flag, EpNam
       Character*8   cDate, cTime
@@ -42,7 +43,7 @@ c
      +              Wrt20, Wrt21, OK
       byte          incd, asce
 c
-      data Vsn/'1.2  B80119'/, GotTileDir,dbg/2*.false./, nMisMch/0/,
+      data Vsn/'1.2  B80223'/, GotTileDir,dbg/2*.false./, nMisMch/0/,
      +     nEpochs,nEpA,nEpD,nEpMx,nEpAM,nEpDM/6*0/, TempDir/'.'/,
      +     GotOA,GotOD,GotOX/3*.false./, nOutA,nOutD/2*0/
      +     opt1b/.false./, d2r/1.745329252e-2/, fsd/0.95/,
@@ -1223,4 +1224,3 @@ c
       ran1=min(AM*iy,RNMX)
       return
       END
-
