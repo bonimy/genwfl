@@ -19,6 +19,7 @@ c                   included full-depth coadd & "n" image for W1 -> W3
 c           B80117: installed PA-range subroutine ChkPAhist
 c           B80119: installed randomized work-file name
 c           B80223: made FBT file names 500 characters long
+c           B80226: changed "end of cryo" to "end of cryo PSF"
 c
 c=======================================================================
 c
@@ -43,15 +44,17 @@ c
      +              Wrt20, Wrt21, OK
       byte          incd, asce
 c
-      data Vsn/'1.2  B80223'/, GotTileDir,dbg/2*.false./, nMisMch/0/,
+      data Vsn/'1.2  B80226'/, GotTileDir,dbg/2*.false./, nMisMch/0/,
      +     nEpochs,nEpA,nEpD,nEpMx,nEpAM,nEpDM/6*0/, TempDir/'.'/,
      +     GotOA,GotOD,GotOX/3*.false./, nOutA,nOutD/2*0/
      +     opt1b/.false./, d2r/1.745329252e-2/, fsd/0.95/,
      +     rs3bc/1.2/, DoRS3b/.false./, WorkNam/'genwfltmp'/
-      data MJD0/57467.6875/,           ! 3/20/2016 04 30 00
-     +     MJD4/55469.277509259/,      ! end of 3-band cryo      
-     +     MJD3/55469.277509259/,      ! end of 3-band cryo
-     +     fac/0.9856101/              ! 360/365.256     
+      data MJD0/57467.6875/,     ! 3/20/2016 04 30 00; used for sunlong
+     +     fac/0.9856101/,       ! 360/365.256     
+     +     MJD4/55414.932/,      ! August 6, 2010, end of 4-band cryo
+     +     MJD3/55480.0/         ! JD = 2455480.0, October 11, 2010
+c                                ! Peter's Preference, end of "cryo PSF"
+c    +     MJD3/55469.277509259/ ! real end of 3-band cryo
 c
       common /vdt/ cdate,ctime,vsn
 c
