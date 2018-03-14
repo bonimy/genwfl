@@ -20,6 +20,7 @@ c           B80117: installed PA-range subroutine ChkPAhist
 c           B80119: installed randomized work-file name
 c           B80223: made FBT file names 500 characters long
 c           B80226: changed "end of cryo" to "end of cryo PSF"
+c           B80314: put error stop if temp file can't be created
 c
 c=======================================================================
 c
@@ -44,7 +45,7 @@ c
      +              Wrt20, Wrt21, OK
       byte          incd, asce
 c
-      data Vsn/'1.2  B80226'/, GotTileDir,dbg/2*.false./, nMisMch/0/,
+      data Vsn/'1.2  B80314'/, GotTileDir,dbg/2*.false./, nMisMch/0/,
      +     nEpochs,nEpA,nEpD,nEpMx,nEpAM,nEpDM/6*0/, TempDir/'.'/,
      +     GotOA,GotOD,GotOX/3*.false./, nOutA,nOutD/2*0/
      +     opt1b/.false./, d2r/1.745329252e-2/, fsd/0.95/,
@@ -187,6 +188,8 @@ c
       if (status .ne. 0) then
         print *,'ERROR: attempt to get list of epochs failed'
         print *,'       system status =', status
+        print *,'Execution terminated'
+        call exit(64)
       end if
       open (10, file = WorkNam)
       felem  = 1
@@ -1090,7 +1093,7 @@ c
 40    continue
 c
 50    ZeroX = (kLo .lt. 25) .and. (kHi .gt. 3575)
-      print *,'kLo, kHi:', kLo, kHi
+      if (dbg) print *,'kLo, kHi:', kLo, kHi
       if (ZeroX) go to 500 
       nEmptyOrig = 3600 - kHi + kLo    ! no zero crossing; if the empty
       nEmptyOcc  = kHi - kLo - nOcc    ! region around zero is bigger
