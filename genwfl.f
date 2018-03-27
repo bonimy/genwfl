@@ -21,6 +21,7 @@ c           B80119: installed randomized work-file name
 c           B80223: made FBT file names 500 characters long
 c           B80226: changed "end of cryo" to "end of cryo PSF"
 c           B80314: put error stop if temp file can't be created
+c           B80327: fixed bug that wrote to unit 12 despite GotOX = F
 c
 c=======================================================================
 c
@@ -45,7 +46,7 @@ c
      +              Wrt20, Wrt21, OK
       byte          incd, asce
 c
-      data Vsn/'1.2  B80314'/, GotTileDir,dbg/2*.false./, nMisMch/0/,
+      data Vsn/'1.2  B80327'/, GotTileDir,dbg/2*.false./, nMisMch/0/,
      +     nEpochs,nEpA,nEpD,nEpMx,nEpAM,nEpDM/6*0/, TempDir/'.'/,
      +     GotOA,GotOD,GotOX/3*.false./, nOutA,nOutD/2*0/
      +     opt1b/.false./, d2r/1.745329252e-2/, fsd/0.95/,
@@ -194,9 +195,11 @@ c
       open (10, file = WorkNam)
       felem  = 1
       nelems = 1
-      if (GotOX) open(12, file = XRefNam)
-      write(12,'(a)') '| Ep|   ScanDir   |   CryoType    |'
-     +            //'PAmin | PAmax| dPA  |Pct|OK|'
+      if (GotOX) then
+        open(12, file = XRefNam)
+        write(12,'(a)') '| Ep|   ScanDir   |   CryoType    |'
+     +              //'PAmin | PAmax| dPA  |Pct|OK|'
+      end if
       open  (20, file = FLNamD)
       write (20,'(a)')
      +   '|  path              |      base     | b1 | b2 | b3 | b4 |'
