@@ -22,6 +22,7 @@ c           B80223: made FBT file names 500 characters long
 c           B80226: changed "end of cryo" to "end of cryo PSF"
 c           B80314: put error stop if temp file can't be created
 c           B80327: fixed bug that wrote to unit 12 despite GotOX = F
+c           B80504: fixed formatting bug in the epochs table
 c
 c=======================================================================
 c
@@ -46,7 +47,7 @@ c
      +              Wrt20, Wrt21, OK
       byte          incd, asce
 c
-      data Vsn/'1.2  B80327'/, GotTileDir,dbg/2*.false./, nMisMch/0/,
+      data Vsn/'1.2  B80504'/, GotTileDir,dbg/2*.false./, nMisMch/0/,
      +     nEpochs,nEpA,nEpD,nEpMx,nEpAM,nEpDM/6*0/, TempDir/'.'/,
      +     GotOA,GotOD,GotOX/3*.false./, nOutA,nOutD/2*0/
      +     opt1b/.false./, d2r/1.745329252e-2/, fsd/0.95/,
@@ -592,15 +593,16 @@ c
 c
       OKchar = XrefLine(62:62)     
       if ((n4bc .gt. 0) .and. (n3bc .gt. 0)) then
-        XRefLine = XrefLine(1:20)//'(4-band and 3-band cryo)'
+c                                  '   CryoType    '
+        XRefLine = XrefLine(1:20)//' 4&3-band cryo'
       else if ((npc .gt. 0) .and. (n3bc .gt. 0)) then
-        XRefLine = XrefLine(1:20)//'(3-band cryo and post-cryo)'
+        XRefLine = XrefLine(1:19)//'3-band&post-cryo'
       else if (n4bc .gt. 0) then
-        XRefLine = XrefLine(1:20)//'(4-band cryo)'
+        XRefLine = XrefLine(1:20)//' 4-band cryo'
       else if (n3bc .gt. 0) then
-        XRefLine = XrefLine(1:20)//'(3-band cryo)'
+        XRefLine = XrefLine(1:20)//' 3-band cryo'
       else if (npc .gt. 0) then
-        XRefLine = XrefLine(1:20)//'(post-cryo)'
+        XRefLine = XrefLine(1:20)//' post-cryo'
       end if
       XrefLine(62:62) = OKchar
       if (dbg) print *,'PAmin, PAmax before ChkPAhist:', PAmin, PAmax
